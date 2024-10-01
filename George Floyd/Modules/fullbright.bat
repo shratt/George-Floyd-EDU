@@ -1,8 +1,8 @@
 @echo off
 setlocal
-:ccodeinbatdemo
+
+:module
 set ran=false
-:: StartIDpsinbat
 
 call :getLineNumber startLine StartIDpsinbat 0
 goto ccodeend
@@ -10,8 +10,6 @@ goto ccodeend
 set /a startline=startline+4&set /a endline=endline-3
 powershell -NoProfile -ExecutionPolicy Unrestricted "$s=[System.Management.Automation.ScriptBlock]::create((Get-Content \"%~f0\" -TotalCount $env:endline|Where-Object{$_.readcount -gt $env:startline }) -join \"`n\");&$s" %*&goto ccodeend
 
-#disable exit button within batch
-#Calling user32.dll methods for Windows and Menus
 $code = @'
 using System;
 using System.Diagnostics;
@@ -74,7 +72,7 @@ namespace Fullbright {
 
     public static void Enable() {
         ulong brightnessAddr = baseEvaluatePointer(0x05920E90, new ulong[] { 0x10, 0x1B8, 0x18 });
-        writeFloat((IntPtr)brightnessAddr, 10);
+        writeFloat((IntPtr)brightnessAddr, 25);
     }
  }
 }
